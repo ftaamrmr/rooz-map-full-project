@@ -1,0 +1,195 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "pricing": "Pricing",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "login": "Login",
+    "signup": "Sign Up",
+    "wallet": "Wallet",
+    "landingPages": "Landing Pages",
+    "notifications": "Notifications"
+  },
+  "home": {
+    "hero": {
+      "badge": "Automate Your Business Today",
+      "title": "Powerful Automation",
+      "titleHighlight": "Made Simple",
+      "description": "Run AI-powered services, manage your points, and automate your workflow with our easy-to-use platform. No coding required.",
+      "cta": "Start Free Trial",
+      "viewServices": "View Services"
+    },
+    "stats": {
+      "users": "Active Users",
+      "services": "Services Run",
+      "hours": "Hours Saved",
+      "uptime": "Uptime"
+    },
+    "features": {
+      "title": "Everything You Need to Automate",
+      "description": "Powerful features designed to help you work smarter, not harder",
+      "automated": {
+        "title": "Automated Services",
+        "description": "Run powerful automation workflows with a single click. Save hours of manual work."
+      },
+      "secure": {
+        "title": "Secure & Reliable",
+        "description": "Enterprise-grade security with 99.9% uptime. Your data is always protected."
+      },
+      "multilang": {
+        "title": "Multi-Language Support",
+        "description": "Built-in support for Arabic, English, and more. Truly global platform."
+      },
+      "ai": {
+        "title": "AI-Powered",
+        "description": "Leverage cutting-edge AI models to automate complex tasks intelligently."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "description": "Get started in three simple steps",
+      "step1": {
+        "title": "Sign Up",
+        "description": "Create your account and choose a plan that fits your needs"
+      },
+      "step2": {
+        "title": "Add Points",
+        "description": "Purchase points to use across all our automation services"
+      },
+      "step3": {
+        "title": "Run Services",
+        "description": "Execute powerful automations with just a few clicks"
+      }
+    },
+    "cta": {
+      "title": "Ready to Automate?",
+      "description": "Join thousands of users who are saving time and growing their business with Rooz Auto",
+      "button": "Start Free Trial",
+      "noCard": "No credit card required",
+      "cancelAnytime": "Cancel anytime"
+    },
+    "footer": {
+      "rights": "© 2025 Rooz Auto. All rights reserved."
+    }
+  },
+  "services": {
+    "title": "Automation Services",
+    "description": "Choose from our collection of powerful AI-powered services. Each service costs points based on complexity.",
+    "categories": {
+      "all": "All",
+      "content": "Content",
+      "media": "Media",
+      "marketing": "Marketing"
+    },
+    "popular": "Popular",
+    "points": "points",
+    "runService": "Run Service",
+    "needMore": {
+      "title": "Need More Points?",
+      "description": "Upgrade your plan to get more points and unlock all features",
+      "button": "View Pricing"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signupHere": "Sign up here",
+    "loginHere": "Login here"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, User!",
+    "stats": {
+      "available": "Available Points",
+      "used": "Services Used",
+      "saved": "Time Saved",
+      "thisMonth": "This month",
+      "lastMonth": "from last month"
+    },
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions",
+    "runNewService": "Run New Service",
+    "addPoints": "Add Points",
+    "getSupport": "Get Support",
+    "viewAll": "View All",
+    "backToHome": "Back to Home",
+    "status": {
+      "completed": "completed",
+      "processing": "processing",
+      "failed": "failed"
+    }
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "subtitle": "Manage all aspects of Rooz Auto",
+    "backToSite": "Back to Site",
+    "stats": {
+      "activeUsers": "Active Users",
+      "pointsUsed": "Points Used Today",
+      "servicesRun": "Services Run",
+      "errors": "Errors"
+    },
+    "sections": {
+      "users": {
+        "title": "User Management",
+        "description": "View, edit users and manage points"
+      },
+      "services": {
+        "title": "Services",
+        "description": "Add, edit and manage automation services"
+      },
+      "payments": {
+        "title": "Payments & Plans",
+        "description": "Manage pricing, subscriptions and payments"
+      },
+      "landing": {
+        "title": "Landing Pages",
+        "description": "Visual page builder with analytics"
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Detailed usage and performance metrics"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "System configuration and integrations"
+      }
+    },
+    "recentActivity": "Recent System Activity"
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "description": "Choose the perfect plan for your needs. Upgrade or downgrade at any time.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save": "Save 20%",
+    "perMonth": "/month",
+    "popular": "Most Popular",
+    "getStarted": "Get Started",
+    "contactSales": "Contact Sales",
+    "features": "Features:",
+    "allFeatures": "Everything in",
+    "plus": "plus:"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import"
+  }
+}
