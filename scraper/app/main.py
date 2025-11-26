@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, validator
 import httpx
 from bs4 import BeautifulSoup
 import logging
@@ -11,6 +11,18 @@ logger = logging.getLogger(__name__)
 # إعدادات ثابتة
 MAX_TEXT_LENGTH = 5000  # الحد الأقصى لطول النص المستخرج
 MAX_IMAGES = 10  # الحد الأقصى لعدد الصور المستخرجة
+
+# قائمة المضيفين المحظورين (لمنع SSRF)
+BLOCKED_HOSTS = {
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "169.254.169.254",  # AWS metadata
+    "metadata.google.internal",  # GCP metadata
+}
+
+# قائمة الـ schemes المسموح بها
+ALLOWED_SCHEMES = {"http", "https"}
 
 app = FastAPI(title="Rooz Auto Scraper Service")
 
@@ -28,6 +40,29 @@ class ScrapeRequest(BaseModel):
     extract_text: bool = True
     extract_images: bool = False
     extract_metadata: bool = True
+    
+    @validator('url')
+    def validate_url(cls, v):
+        """
+        التحقق من صحة الـ URL لمنع SSRF attacks
+        """
+        # التحقق من الـ scheme
+        if v.scheme not in ALLOWED_SCHEMES:
+            raise ValueError(f"URL scheme must be http or https, got: {v.scheme}")
+        
+        # التحقق من المضيف
+        host = v.host.lower() if v.host else ""
+        if host in BLOCKED_HOSTS:
+            raise ValueError(f"Access to {host} is not allowed")
+        
+        # منع الوصول إلى شبكات خاصة (private networks)
+        if host.startswith(("10.", "172.16.", "172.17.", "172.18.", "172.19.", 
+                           "172.20.", "172.21.", "172.22.", "172.23.", "172.24.",
+                           "172.25.", "172.26.", "172.27.", "172.28.", "172.29.",
+                           "172.30.", "172.31.", "192.168.")):
+            raise ValueError("Access to private network ranges is not allowed")
+        
+        return v
 
 
 class ScrapeResponse(BaseModel):
