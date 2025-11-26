@@ -8,12 +8,16 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# إعدادات ثابتة
+MAX_TEXT_LENGTH = 5000  # الحد الأقصى لطول النص المستخرج
+MAX_IMAGES = 10  # الحد الأقصى لعدد الصور المستخرجة
+
 app = FastAPI(title="Rooz Auto Scraper Service")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=["*"],  # TODO: في الإنتاج، غيّر هذا إلى قائمة الدومينات المسموح بها
+    allow_credentials=False,  # تم تعطيل credentials للأمان مع allow_origins=["*"]
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -84,7 +88,7 @@ async def scrape_url(request: ScrapeRequest):
                 script.decompose()
             text_content = soup.get_text(separator=' ', strip=True)
             # تنظيف النص
-            text_content = ' '.join(text_content.split())[:5000]  # حد أقصى 5000 حرف
+            text_content = ' '.join(text_content.split())[:MAX_TEXT_LENGTH]
         
         # استخراج الصور
         images = []
@@ -117,7 +121,7 @@ async def scrape_url(request: ScrapeRequest):
             title=title,
             description=description,
             text_content=text_content,
-            images=images[:10],  # حد أقصى 10 صور
+            images=images[:MAX_IMAGES],
             metadata=metadata,
             status="success"
         )
