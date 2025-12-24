@@ -127,3 +127,286 @@ await fetch(`${import.meta.env.VITE_API_URL}/ai/generate`, { ... })
   - `branding_settings` (اسم المشروع، الشعار، الألوان، الثيم، ...)
 
 يمكنك ربط هذه الـ API مع صفحة في لوحة المدير في الواجهة الأمامية لتسمح بالتحكم الكامل بالبراندنج دون تعديل الكود.
+
+---
+
+## 7) 🌍 Internationalization (i18n) | الترجمة والدعم متعدد اللغات
+
+This project supports multiple languages with full RTL (Right-to-Left) support for Arabic.
+
+### Supported Languages | اللغات المدعومة
+
+- **English (en)** - Default | الافتراضية
+- **Arabic (ar)** - With RTL support | مع دعم الكتابة من اليمين لليسار
+
+### Frontend i18n
+
+#### Language Detection | كشف اللغة
+
+The system automatically detects the user's language preference in this order:
+1. **User preference** stored in `localStorage` (persists across sessions)
+2. **Query parameter** `?lang=ar` or `?lang=en`
+3. **Browser language** from `Accept-Language` header
+4. **Fallback** to English if no preference is found
+
+#### Changing Language | تغيير اللغة
+
+Users can change the language using the language toggle button in the header (top right corner). The selection is automatically saved and persists across sessions.
+
+#### Translation Files | ملفات الترجمة
+
+Frontend translations are located in:
+- `frontend/src/i18n/locales/en.json` - English translations
+- `frontend/src/i18n/locales/ar.json` - Arabic translations
+
+#### Translation Key Structure | بنية مفاتيح الترجمة
+
+```json
+{
+  "nav": { "home": "Home", "services": "Services" },
+  "home": {
+    "hero": { "title": "Powerful Automation" },
+    "features": { ... }
+  },
+  "services": { ... },
+  "dashboard": { ... }
+}
+```
+
+#### Using Translations in Components | استخدام الترجمات في المكونات
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const MyComponent = () => {
+  const { t } = useTranslation();
+  
+  return (
+    <div>
+      <h1>{t('home.hero.title')}</h1>
+      <p>{t('home.hero.description')}</p>
+    </div>
+  );
+};
+```
+
+### Backend i18n
+
+#### Language Detection | كشف اللغة
+
+The backend detects language from the `X-Lang` header in API requests:
+
+```bash
+# English (default)
+curl -H "X-Lang: en" http://localhost:8000/api/auth/login
+
+# Arabic
+curl -H "X-Lang: ar" http://localhost:8000/api/auth/login
+```
+
+If no `X-Lang` header is provided, the backend defaults to English.
+
+#### Translation Files | ملفات الترجمة
+
+Backend translations are located in:
+- `backend/locales/en.json` - English error messages
+- `backend/locales/ar.json` - Arabic error messages
+
+#### Error Message Structure | بنية رسائل الأخطاء
+
+```json
+{
+  "errors": {
+    "email_already_registered": "Email already registered",
+    "incorrect_credentials": "Incorrect email or password"
+  },
+  "success": {
+    "user_created": "User created successfully"
+  },
+  "validation": {
+    "email_required": "Email is required"
+  }
+}
+```
+
+#### Using Translations in Backend | استخدام الترجمات في الخادم
+
+```python
+from app.i18n import t
+from app.deps import get_language
+
+@router.post("/some-endpoint")
+def my_endpoint(lang: str = Depends(get_language)):
+    if error:
+        raise HTTPException(
+            status_code=400,
+            detail=t("errors.email_already_registered", lang)
+        )
+```
+
+### Adding a New Language | إضافة لغة جديدة
+
+#### Frontend | الواجهة الأمامية
+
+1. **Create translation file** | إنشاء ملف الترجمة:
+   ```bash
+   # Create a new file, e.g., for French
+   cp frontend/src/i18n/locales/en.json frontend/src/i18n/locales/fr.json
+   ```
+
+2. **Translate all keys** | ترجمة جميع المفاتيح:
+   ```json
+   {
+     "nav": {
+       "home": "Accueil",
+       "services": "Services"
+     },
+     ...
+   }
+   ```
+
+3. **Register in i18n config** | التسجيل في إعدادات i18n:
+   ```typescript
+   // frontend/src/i18n/config.ts
+   import fr from './locales/fr.json';
+   
+   i18n.init({
+     resources: {
+       en: { translation: en },
+       ar: { translation: ar },
+       fr: { translation: fr }  // Add new language
+     },
+     ...
+   });
+   ```
+
+4. **Add to language toggle** | الإضافة إلى مفتاح اللغة:
+   ```tsx
+   // frontend/src/components/LanguageToggle.tsx
+   <DropdownMenuItem onClick={() => changeLanguage('fr')}>
+     Français
+   </DropdownMenuItem>
+   ```
+
+5. **Add RTL support if needed** | إضافة دعم RTL إذا لزم الأمر:
+   ```typescript
+   // frontend/src/i18n/config.ts
+   const rtlLanguages = ['ar', 'he', 'fa'];  // Hebrew, Farsi
+   const direction = rtlLanguages.includes(lng) ? 'rtl' : 'ltr';
+   ```
+
+#### Backend | الخادم
+
+1. **Create translation file** | إنشاء ملف الترجمة:
+   ```bash
+   cp backend/locales/en.json backend/locales/fr.json
+   ```
+
+2. **Translate all keys** | ترجمة جميع المفاتيح:
+   ```json
+   {
+     "errors": {
+       "email_already_registered": "Email déjà enregistré"
+     }
+   }
+   ```
+
+3. **Update i18n.py** | تحديث i18n.py:
+   ```python
+   # backend/app/i18n.py
+   _translations = {
+       "en": load_translations("en"),
+       "ar": load_translations("ar"),
+       "fr": load_translations("fr")  # Add new language
+   }
+   ```
+
+4. **Update deps.py** | تحديث deps.py:
+   ```python
+   # backend/app/deps.py
+   def get_language(x_lang: Optional[str] = Header(None, alias="X-Lang")) -> str:
+       if x_lang and x_lang.lower() in ["en", "ar", "fr"]:  # Add "fr"
+           return x_lang.lower()
+       return "en"
+   ```
+
+### RTL (Right-to-Left) Support | دعم الكتابة من اليمين لليسار
+
+The application automatically switches to RTL layout for Arabic:
+
+- **HTML direction**: `<html dir="rtl">`
+- **CSS**: Tailwind CSS automatically handles RTL with `rtl:` prefix
+- **Icons**: No mirroring needed, icons stay in logical positions
+- **Text alignment**: Automatically adjusted
+
+### Testing i18n | اختبار الترجمة
+
+#### Frontend Testing:
+```bash
+cd frontend
+npm run dev
+# Open http://localhost:5173
+# Click language toggle in header
+# Verify translations and RTL layout for Arabic
+```
+
+#### Backend Testing:
+```bash
+# Test English (default)
+curl -X POST http://localhost:8000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@test.com","password":"short"}'
+
+# Test Arabic
+curl -X POST http://localhost:8000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -H "X-Lang: ar" \
+  -d '{"email":"test@test.com","password":"short"}'
+```
+
+### Best Practices | أفضل الممارسات
+
+1. **Always use translation keys**, never hardcode text
+2. **Keep keys organized** by feature/page
+3. **Use descriptive key names**: `home.hero.title` not `text1`
+4. **Test both languages** after adding new features
+5. **Keep translations in sync** across all language files
+6. **Use placeholder syntax** for dynamic values: `{name}`, `{count}`
+
+### Example: Adding a New Feature with i18n
+
+#### 1. Add translation keys:
+```json
+// en.json
+{
+  "profile": {
+    "title": "User Profile",
+    "edit": "Edit Profile",
+    "save": "Save Changes"
+  }
+}
+
+// ar.json
+{
+  "profile": {
+    "title": "الملف الشخصي",
+    "edit": "تعديل الملف الشخصي",
+    "save": "حفظ التغييرات"
+  }
+}
+```
+
+#### 2. Use in component:
+```tsx
+const Profile = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h1>{t('profile.title')}</h1>
+      <button>{t('profile.edit')}</button>
+    </div>
+  );
+};
+```
+
+---

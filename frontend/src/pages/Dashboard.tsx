@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Zap,
   TrendingUp,
@@ -14,6 +15,8 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
+  
   const recentServices = [
     { icon: FileText, name: "Product Description", time: "2 hours ago", points: 2, status: "completed" },
     { icon: Image, name: "Image Enhancement", time: "5 hours ago", points: 3, status: "completed" },
@@ -27,11 +30,11 @@ const Dashboard = () => {
         <div className="container px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Dashboard</h1>
-              <p className="text-muted-foreground">Welcome back, User!</p>
+              <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
+              <p className="text-muted-foreground">{t('dashboard.welcome')}</p>
             </div>
             <Link to="/">
-              <Button variant="outline">Back to Home</Button>
+              <Button variant="outline">{t('dashboard.backToHome')}</Button>
             </Link>
           </div>
         </div>
@@ -43,7 +46,7 @@ const Dashboard = () => {
           <Card className="p-6 border-border/50">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Available Points</p>
+                <p className="text-sm text-muted-foreground mb-1">{t('dashboard.stats.available')}</p>
                 <h3 className="text-3xl font-bold">248</h3>
               </div>
               <div className="h-12 w-12 rounded-lg bg-accent/10 text-accent flex items-center justify-center">
@@ -52,7 +55,7 @@ const Dashboard = () => {
             </div>
             <Button asChild variant="link" className="px-0 mt-2 text-accent">
               <Link to="/pricing">
-                Add More Points <ArrowRight className="ml-1 h-4 w-4" />
+                {t('dashboard.addPoints')} <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
           </Card>
@@ -60,27 +63,27 @@ const Dashboard = () => {
           <Card className="p-6 border-border/50">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Services Used</p>
+                <p className="text-sm text-muted-foreground mb-1">{t('dashboard.stats.used')}</p>
                 <h3 className="text-3xl font-bold">47</h3>
               </div>
               <div className="h-12 w-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                 <TrendingUp className="h-6 w-6" />
               </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-2">+12% from last month</p>
+            <p className="text-xs text-muted-foreground mt-2">+12% {t('dashboard.stats.lastMonth')}</p>
           </Card>
 
           <Card className="p-6 border-border/50">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Time Saved</p>
+                <p className="text-sm text-muted-foreground mb-1">{t('dashboard.stats.saved')}</p>
                 <h3 className="text-3xl font-bold">23h</h3>
               </div>
               <div className="h-12 w-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                 <Clock className="h-6 w-6" />
               </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-2">This month</p>
+            <p className="text-xs text-muted-foreground mt-2">{t('dashboard.stats.thisMonth')}</p>
           </Card>
         </div>
 
@@ -88,8 +91,8 @@ const Dashboard = () => {
           {/* Recent Activity */}
           <Card className="lg:col-span-2 p-6 border-border/50">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Recent Activity</h2>
-              <Button variant="ghost" size="sm">View All</Button>
+              <h2 className="text-xl font-semibold">{t('dashboard.recentActivity')}</h2>
+              <Button variant="ghost" size="sm">{t('dashboard.viewAll')}</Button>
             </div>
             <div className="space-y-4">
               {recentServices.map((service, index) => (
@@ -104,10 +107,10 @@ const Dashboard = () => {
                   <div className="text-right">
                     <div className="flex items-center gap-1 text-sm font-medium text-accent mb-1">
                       <Zap className="h-3 w-3" />
-                      {service.points} points
+                      {service.points} {t('services.points')}
                     </div>
                     <Badge variant="secondary" className="text-xs">
-                      {service.status}
+                      {t(`dashboard.status.${service.status}`)}
                     </Badge>
                   </div>
                 </div>
@@ -117,27 +120,27 @@ const Dashboard = () => {
 
           {/* Quick Actions */}
           <Card className="p-6 border-border/50">
-            <h2 className="text-xl font-semibold mb-6">Quick Actions</h2>
+            <h2 className="text-xl font-semibold mb-6">{t('dashboard.quickActions')}</h2>
             <div className="space-y-3">
               <Button asChild className="w-full justify-start bg-gradient-hero" size="lg">
                 <Link to="/services">
                   <Zap className="mr-2 h-4 w-4" />
-                  Run New Service
+                  {t('dashboard.runNewService')}
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start" size="lg">
                 <Link to="/pricing">
-                  Add Points
+                  {t('dashboard.addPoints')}
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start" size="lg">
                 <Link to="/landing-pages">
-                  Landing Pages
+                  {t('nav.landingPages')}
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start" size="lg">
                 <Link to="/support">
-                  Get Support
+                  {t('dashboard.getSupport')}
                 </Link>
               </Button>
             </div>
