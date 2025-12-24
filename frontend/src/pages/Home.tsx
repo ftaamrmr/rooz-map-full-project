@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Header } from "@/components/Header";
+import { useTranslation } from "react-i18next";
 import { 
   Zap, 
   Shield, 
@@ -15,34 +16,36 @@ import {
 } from "lucide-react";
 
 const Home = () => {
+  const { t } = useTranslation();
+  
   const features = [
     {
       icon: Zap,
-      title: "Automated Services",
-      description: "Run powerful automation workflows with a single click. Save hours of manual work."
+      title: t('home.features.automated.title'),
+      description: t('home.features.automated.description')
     },
     {
       icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime. Your data is always protected."
+      title: t('home.features.secure.title'),
+      description: t('home.features.secure.description')
     },
     {
       icon: Globe,
-      title: "Multi-Language Support",
-      description: "Built-in support for Arabic, English, and more. Truly global platform."
+      title: t('home.features.multilang.title'),
+      description: t('home.features.multilang.description')
     },
     {
       icon: Sparkles,
-      title: "AI-Powered",
-      description: "Leverage cutting-edge AI models to automate complex tasks intelligently."
+      title: t('home.features.ai.title'),
+      description: t('home.features.ai.description')
     }
   ];
 
   const stats = [
-    { icon: Users, value: "10K+", label: "Active Users" },
-    { icon: Zap, value: "1M+", label: "Services Run" },
-    { icon: Clock, value: "500K+", label: "Hours Saved" },
-    { icon: TrendingUp, value: "99.9%", label: "Uptime" }
+    { icon: Users, value: "10K+", label: t('home.stats.users') },
+    { icon: Zap, value: "1M+", label: t('home.stats.services') },
+    { icon: Clock, value: "500K+", label: t('home.stats.hours') },
+    { icon: TrendingUp, value: "99.9%", label: t('home.stats.uptime') }
   ];
 
   return (
@@ -54,29 +57,29 @@ const Home = () => {
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
             <Sparkles className="h-4 w-4" />
-            Automate Your Business Today
+            {t('home.hero.badge')}
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-            Powerful Automation
+            {t('home.hero.title')}
             <span className="block bg-gradient-hero bg-clip-text text-transparent">
-              Made Simple
+              {t('home.hero.titleHighlight')}
             </span>
           </h1>
           
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Run AI-powered services, manage your points, and automate your workflow with our easy-to-use platform. No coding required.
+            {t('home.hero.description')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-gradient-hero hover:opacity-90 transition-opacity shadow-lg">
               <Link to="/auth?mode=signup">
-                Start Free Trial
+                {t('home.hero.cta')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/services">View Services</Link>
+              <Link to="/services">{t('home.hero.viewServices')}</Link>
             </Button>
           </div>
         </div>
@@ -102,10 +105,10 @@ const Home = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold">
-              Everything You Need to Automate
+              {t('home.features.title')}
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Powerful features designed to help you work smarter, not harder
+              {t('home.features.description')}
             </p>
           </div>
           
@@ -127,15 +130,15 @@ const Home = () => {
       <section className="container px-4 py-20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">How It Works</h2>
-            <p className="text-muted-foreground text-lg">Get started in three simple steps</p>
+            <h2 className="text-3xl md:text-4xl font-bold">{t('home.howItWorks.title')}</h2>
+            <p className="text-muted-foreground text-lg">{t('home.howItWorks.description')}</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { step: "1", title: "Sign Up", description: "Create your account and choose a plan that fits your needs" },
-              { step: "2", title: "Add Points", description: "Purchase points to use across all our automation services" },
-              { step: "3", title: "Run Services", description: "Execute powerful automations with just a few clicks" }
+              { step: "1", title: t('home.howItWorks.step1.title'), description: t('home.howItWorks.step1.description') },
+              { step: "2", title: t('home.howItWorks.step2.title'), description: t('home.howItWorks.step2.description') },
+              { step: "3", title: t('home.howItWorks.step3.title'), description: t('home.howItWorks.step3.description') }
             ].map((item, index) => (
               <div key={index} className="relative">
                 <div className="flex flex-col items-center text-center space-y-4">
@@ -158,14 +161,14 @@ const Home = () => {
       <section className="container px-4 py-20">
         <Card className="max-w-4xl mx-auto p-12 bg-gradient-hero text-primary-foreground border-0 shadow-glow">
           <div className="text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">Ready to Automate?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{t('home.cta.title')}</h2>
             <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
-              Join thousands of users who are saving time and growing their business with Rooz Auto
+              {t('home.cta.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button asChild size="lg" variant="secondary" className="bg-background text-foreground hover:bg-background/90">
                 <Link to="/auth?mode=signup">
-                  Start Free Trial
+                  {t('home.cta.button')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -173,11 +176,11 @@ const Home = () => {
             <div className="flex items-center justify-center gap-8 pt-8">
               <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <CheckCircle2 className="h-4 w-4" />
-                No credit card required
+                {t('home.cta.noCard')}
               </div>
               <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <CheckCircle2 className="h-4 w-4" />
-                Cancel anytime
+                {t('home.cta.cancelAnytime')}
               </div>
             </div>
           </div>
@@ -195,7 +198,7 @@ const Home = () => {
               Rooz Auto
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2025 Rooz Auto. All rights reserved.
+              {t('home.footer.rights')}
             </p>
           </div>
         </div>

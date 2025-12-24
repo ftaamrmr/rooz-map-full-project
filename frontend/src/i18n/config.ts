@@ -12,15 +12,17 @@ i18n
       en: { translation: en },
       ar: { translation: ar }
     },
-    fallbackLng: 'ar',
+    fallbackLng: 'en', // Default to English if no preference is found
     defaultNS: 'translation',
     interpolation: {
       escapeValue: false
     },
     detection: {
-      order: ['querystring', 'localStorage', 'navigator'],
-      caches: ['localStorage'],
-      lookupQuerystring: 'lang'
+      // Order: check localStorage first (user preference), then query string, then browser
+      order: ['localStorage', 'querystring', 'navigator'],
+      caches: ['localStorage'], // Persist user's choice in localStorage
+      lookupQuerystring: 'lang',
+      lookupLocalStorage: 'i18nextLng'
     }
   });
 

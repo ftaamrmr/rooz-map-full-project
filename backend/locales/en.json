@@ -1,0 +1,33 @@
+{
+  "errors": {
+    "email_already_registered": "Email already registered",
+    "incorrect_credentials": "Incorrect email or password",
+    "user_not_found": "User not found",
+    "invalid_token": "Invalid or expired token",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "not_found": "Resource not found",
+    "internal_server_error": "Internal server error",
+    "validation_error": "Validation error",
+    "scraper_not_configured": "Scraper service URL is not configured",
+    "job_not_found": "Job not found",
+    "not_your_job": "Not your job",
+    "api_key_not_set": "API key for provider {provider} is not set",
+    "llm_error": "LLM error ({status_code}): {message}",
+    "invalid_competitive_mode": "Invalid competitive mode. Must be 'python' or 'ai'",
+    "settings_update_failed": "Failed to update settings"
+  },
+  "success": {
+    "user_created": "User created successfully",
+    "login_successful": "Login successful",
+    "settings_updated": "Settings updated successfully",
+    "job_created": "Job created successfully"
+  },
+  "validation": {
+    "email_required": "Email is required",
+    "password_required": "Password is required",
+    "password_too_short": "Password must be at least 8 characters",
+    "invalid_email": "Invalid email format",
+    "field_required": "This field is required"
+  }
+}
