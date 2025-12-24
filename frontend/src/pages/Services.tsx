@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   FileText,
   Image,
@@ -15,13 +16,15 @@ import {
 } from "lucide-react";
 
 const Services = () => {
+  const { t } = useTranslation();
+  
   const services = [
     {
       id: 1,
       icon: FileText,
       name: "Product Description Generator",
       description: "Generate compelling product descriptions in multiple languages using AI",
-      category: "Content",
+      category: t('services.categories.content'),
       points: 2,
       popular: true
     },
@@ -30,7 +33,7 @@ const Services = () => {
       icon: Image,
       name: "Image Enhancement",
       description: "Enhance and optimize product images automatically",
-      category: "Media",
+      category: t('services.categories.media'),
       points: 3,
       popular: false
     },
@@ -39,7 +42,7 @@ const Services = () => {
       icon: Video,
       name: "Video Thumbnail Creator",
       description: "Create eye-catching video thumbnails with AI",
-      category: "Media",
+      category: t('services.categories.media'),
       points: 2,
       popular: false
     },
@@ -48,7 +51,7 @@ const Services = () => {
       icon: MessageSquare,
       name: "Social Media Post Generator",
       description: "Generate engaging social media content for all platforms",
-      category: "Content",
+      category: t('services.categories.content'),
       points: 1,
       popular: true
     },
@@ -57,7 +60,7 @@ const Services = () => {
       icon: TrendingUp,
       name: "SEO Optimizer",
       description: "Optimize your content for search engines automatically",
-      category: "Marketing",
+      category: t('services.categories.marketing'),
       points: 3,
       popular: false
     },
@@ -66,13 +69,13 @@ const Services = () => {
       icon: Mail,
       name: "Email Campaign Builder",
       description: "Create professional email campaigns in minutes",
-      category: "Marketing",
+      category: t('services.categories.marketing'),
       points: 2,
       popular: true
     }
   ];
 
-  const categories = ["All", "Content", "Media", "Marketing"];
+  const categories = [t('services.categories.all'), t('services.categories.content'), t('services.categories.media'), t('services.categories.marketing')];
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -82,21 +85,21 @@ const Services = () => {
         {/* Page Header */}
         <div className="max-w-3xl mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Automation Services
+            {t('services.title')}
           </h1>
           <p className="text-lg text-muted-foreground">
-            Choose from our collection of powerful AI-powered services. Each service costs points based on complexity.
+            {t('services.description')}
           </p>
         </div>
 
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-8">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <Button
               key={category}
-              variant={category === "All" ? "default" : "outline"}
+              variant={index === 0 ? "default" : "outline"}
               size="sm"
-              className={category === "All" ? "bg-gradient-hero" : ""}
+              className={index === 0 ? "bg-gradient-hero" : ""}
             >
               {category}
             </Button>
@@ -113,7 +116,7 @@ const Services = () => {
                     <service.icon className="h-6 w-6" />
                   </div>
                   {service.popular && (
-                    <Badge className="bg-accent text-accent-foreground">Popular</Badge>
+                    <Badge className="bg-accent text-accent-foreground">{t('services.popular')}</Badge>
                   )}
                 </div>
                 
@@ -128,14 +131,14 @@ const Services = () => {
                     </Badge>
                     <div className="flex items-center gap-1 text-sm font-medium text-accent">
                       <Zap className="h-3 w-3" />
-                      {service.points} points
+                      {service.points} {t('services.points')}
                     </div>
                   </div>
                 </div>
 
                 <Button asChild className="w-full group-hover:bg-gradient-hero transition-all" variant="outline">
                   <Link to={`/service/${service.id}`}>
-                    Run Service
+                    {t('services.runService')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -148,14 +151,14 @@ const Services = () => {
         <Card className="p-8 bg-gradient-hero text-primary-foreground border-0 shadow-glow">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Need More Points?</h3>
+              <h3 className="text-2xl font-bold mb-2">{t('services.needMore.title')}</h3>
               <p className="text-primary-foreground/80">
-                Upgrade your plan to get more points and unlock all features
+                {t('services.needMore.description')}
               </p>
             </div>
             <Button asChild size="lg" variant="secondary" className="bg-background text-foreground hover:bg-background/90">
               <Link to="/pricing">
-                View Pricing
+                {t('services.needMore.button')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

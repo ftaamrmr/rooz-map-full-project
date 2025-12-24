@@ -1,0 +1,33 @@
+{
+  "errors": {
+    "email_already_registered": "البريد الإلكتروني مسجل بالفعل",
+    "incorrect_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "user_not_found": "المستخدم غير موجود",
+    "invalid_token": "رمز غير صالح أو منتهي الصلاحية",
+    "unauthorized": "وصول غير مصرح به",
+    "forbidden": "الوصول محظور",
+    "not_found": "المورد غير موجود",
+    "internal_server_error": "خطأ داخلي في الخادم",
+    "validation_error": "خطأ في التحقق من الصحة",
+    "scraper_not_configured": "رابط خدمة السكرابر غير مكون",
+    "job_not_found": "المهمة غير موجودة",
+    "not_your_job": "ليست مهمتك",
+    "api_key_not_set": "مفتاح API لمزود الخدمة {provider} غير موجود",
+    "llm_error": "خطأ في LLM ({status_code}): {message}",
+    "invalid_competitive_mode": "وضع تنافسي غير صالح. يجب أن يكون 'python' أو 'ai'",
+    "settings_update_failed": "فشل تحديث الإعدادات"
+  },
+  "success": {
+    "user_created": "تم إنشاء المستخدم بنجاح",
+    "login_successful": "تم تسجيل الدخول بنجاح",
+    "settings_updated": "تم تحديث الإعدادات بنجاح",
+    "job_created": "تم إنشاء المهمة بنجاح"
+  },
+  "validation": {
+    "email_required": "البريد الإلكتروني مطلوب",
+    "password_required": "كلمة المرور مطلوبة",
+    "password_too_short": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    "invalid_email": "تنسيق البريد الإلكتروني غير صالح",
+    "field_required": "هذا الحقل مطلوب"
+  }
+}
