@@ -10,8 +10,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./app ./app
 
-ENV PORT=9000
+# Coolify عادة يمرر PORT تلقائياً
+ENV PORT=8000
 
-EXPOSE 9000
+EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
+# استخدم قيمة PORT من البيئة مع fallback محلي
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

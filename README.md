@@ -1,121 +1,81 @@
 # Rooz Auto (اسم مؤقت – يمكن تغييره من لوحة المدير)
 
-هذا المشروع عبارة عن منصة SaaS لخدمة المتاجر الإلكترونية، مبنية بـ:
+منصة SaaS لخدمة المتاجر الإلكترونية، مبنية بـ:
 
 - Backend: FastAPI (Python)
 - Scraper Service: FastAPI (Python)
-- Frontend: المشروع الذي أرفقته (rooz-auto-hub-main) داخل مجلد frontend
+- Frontend: Vite + React + TypeScript (داخل `frontend`)
 - قاعدة بيانات: PostgreSQL
 - Redis
 - مزوّدي ذكاء اصطناعي: Groq + OpenRouter
-- إدارة الإعدادات والبراندنج من لوحة المدير
-
-> ملاحظة: اسم "Rooz Auto" مؤقت، ويمكن تغييره بالكامل من لوحة المدير عبر إعدادات البراندنج.
 
 ## 1) تشغيل محليًا باستخدام Docker Compose
 
-تأكد أن لديك Docker و Docker Compose على جهازك، ثم:
-
 ```bash
 cp .env.example .env
-# عدّل القيم داخل .env حسب الحاجة
 docker compose up --build
 ```
 
-سيعمل:
+الخدمات المحلية:
 
-- الباك إند على: http://localhost:8000
+- Backend: http://localhost:8000
   - Health: http://localhost:8000/api/health
-- السكرابر على: http://localhost:8001
+- Scraper: http://localhost:8001
   - Health: http://localhost:8001/health
+- Postgres: localhost:5433
+- Redis: localhost:6379
 
-## 2) رفع المشروع على GitHub
+## 2) النشر على Coolify (جاهز Production)
 
-من داخل مجلد المشروع الرئيسي:
+### أ) Backend Application
 
-```bash
-git init
-git add .
-git commit -m "Initial Rooz Auto SaaS (Python backend + scraper + frontend)"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
+- Repository: `https://github.com/ftaamrmr/rooz-map-full-project`
+- Base Directory: `backend`
+- Build Pack: `Dockerfile`
+- Dockerfile Location: `backend/Dockerfile`
+- Port: `8000`
+- Healthcheck Path: `/api/health`
 
-> TODO: # عدّل YOUR_USERNAME و YOUR_REPO باسم المستخدم والمستودع الخاص بك في GitHub.
+Environment Variables المطلوبة (من `.env.example`):
 
-## 3) النشر على Coolify (الطريقة الموصى بها)
+- `DATABASE_URL` (من خدمة PostgreSQL في Coolify)
+- `REDIS_URL` (من خدمة Redis في Coolify)
+- `JWT_SECRET`
+- `JWT_ALGORITHM`
+- `ACCESS_TOKEN_EXPIRE_MINUTES`
+- `BACKEND_CORS_ORIGINS` (دومين الواجهة)
+- `SCRAPER_SERVICE_URL` (دومين خدمة السكرابر)
+- مفاتيح Groq/OpenRouter حسب الحاجة
 
-### أ) نشر الباك إند
+### ب) Scraper Application
 
-1. في Coolify اختر: "New Application"
-2. اختر "Public Repository"
-3. ضع رابط المستودع:
-   - `https://github.com/YOUR_USERNAME/YOUR_REPO.git`
-4. Base Directory:
-   - `backend`
-5. Build Pack:
-   - Dockerfile
-6. Dockerfile Location:
-   - `backend/Dockerfile`
-7. اربط التطبيق بشبكة قواعد البيانات (PostgreSQL) وRedis من Coolify.
-8. أضف متغيرات البيئة من `.env.example` داخل تبويب Environment Variables (لا ترفع ملف .env نفسه).
-9. اضغط Deploy.
-10. جرّب `https://BACKEND_DOMAIN/api/health`
+- Repository: `https://github.com/ftaamrmr/rooz-map-full-project`
+- Base Directory: `scraper`
+- Build Pack: `Dockerfile`
+- Dockerfile Location: `scraper/Dockerfile`
+- Port: `8000`
+- Healthcheck Path: `/health`
 
-### ب) نشر السكرابر
+ثم انسخ دومين السكرابر إلى `SCRAPER_SERVICE_URL` في backend وأعد نشر backend.
 
-1. "New Application" مرة أخرى.
-2. نفس المستودع.
-3. Base Directory:
-   - `scraper`
-4. Dockerfile Location:
-   - `scraper/Dockerfile`
-5. أضف متغيرات بسيطة إن احتجت.
-6. Deploy.
-7. خذ دومين السكرابر، وضعه في متغير `SCRAPER_SERVICE_URL` في الباك إند (من Coolify)، ثم أعد نشر الباك إند.
+### ج) Frontend Application
 
-## 4) ربط الواجهة الأمامية (frontend)
+- Repository: `https://github.com/ftaamrmr/rooz-map-full-project`
+- Base Directory: `frontend`
+- Build Pack: `Dockerfile`
+- Dockerfile Location: `frontend/Dockerfile`
+- Port: `80`
+- Healthcheck Path: `/health`
 
-داخل مجلد `frontend` يوجد مشروع الواجهة الذي أرفقته. يمكنك تشغيله محليًا مثلاً:
+متغير بيئة frontend:
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+- `VITE_API_URL=https://<BACKEND_DOMAIN>/api`
 
-ثم عدّل إعدادات الاتصال بالباك إند مثلاً عبر:
+> ملاحظة: لأنه Vite SPA، تم إعداد Nginx مع fallback إلى `index.html` لدعم React Router.
 
-- ملف `.env` أو `vite.config` أو `src/config.ts` (بحسب المشروع)
-- وضع متغير مثل:
+## 3) ملاحظات الأمان والإنتاج
 
-  ```env
-  VITE_API_URL=https://BACKEND_DOMAIN/api
-  ```
-
-ثم في الكود تستدعي:
-
-```ts
-await fetch(`${import.meta.env.VITE_API_URL}/ai/generate`, { ... })
-```
-
-## 5) ملاحظات مهمة
-
-- كل مكان يحتوي على تعليق `# TODO: # ...` هو نقطة تحتاج منك تعبئة مثل:
-  - مفاتيح API
-  - روابط الخدمات (الدومين)
-  - سياسة الراوتر بين النماذج
-  - إعدادات الأمان (CORS / JWT_SECRET)
-- يفضّل لاحقاً إضافة نظام ترحيل قواعد البيانات (Alembic) بدل `Base.metadata.create_all`.
-
-## 6) تغيير اسم المشروع والشعار من لوحة المدير
-
-- يوجد راوتر `admin` يحتوي على:
-  - `GET /api/admin/settings`
-  - `POST /api/admin/settings`
-- يمكن عبره التحكم بـ:
-  - `competitive_mode` (python / ai)
-  - `branding_settings` (اسم المشروع، الشعار، الألوان، الثيم، ...)
-
-يمكنك ربط هذه الـ API مع صفحة في لوحة المدير في الواجهة الأمامية لتسمح بالتحكم الكامل بالبراندنج دون تعديل الكود.
+- لا ترفع ملف `.env` إلى GitHub.
+- استخدم فقط Environment Variables داخل Coolify.
+- استخدم قيمة قوية وعشوائية لـ `JWT_SECRET`.
+- اجعل `BACKEND_CORS_ORIGINS` محصورًا بدومين/دومينات الواجهة فقط.
